@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javascript</title>
+    <style>
+        form {
+            max-width: 25%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .5em;
+        }
+
+        form>input {
+            flex-basis: 100%;
+        }
+
+        form>button {
+            flex-basis: 60%;
+        }
+
+        form>span,
+        .confirm,
+        .error_email {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="">
+        <p class="confirm"></p>
+        <p class="error_email"></p>
+        <input type="text" name="nom" placeholder="Votre nom au complet">
+        <span class="nom"></span>
+        <input type="email" name="email" placeholder="Votre email">
+        <span class="email"></span>
+        <input type="password" name="password" placeholder="Votre mot de passe">
+        <span class="password"></span>
+        <input type="password" name="confirmPassword" placeholder="Confirmez votre mot de passe">
+        <span class="confirmPassword"></span>
+        <button>Enregistrer</button>
+    </form>
+    <script>
+        // let x = 10;
+        // console.log(x);
+        // let array = [15, 45, 8, 9, 10, 14];
+        // console.log(array.sort((a, b) => a - b));
+        // console.log(array.reverse());
+
+        let input = document.querySelectorAll("form>input");
+        let enregistrer = document.querySelector("form>button");
+
+        let span = document.querySelectorAll("form>span");
+
+        let confirm = document.querySelector(".confirm");
+
+        let error_email = document.querySelector(".error_email");
+
+        function recuperation() {
+            let arrayLike = [];
+            let requete;
+            input.forEach((el, i) => {
+                arrayLike[el.name] = el.value
+            })
+            return arrayLike;
+        }
+
+        function emptyInput(param) {
+            for (let valeur in param) {
+                if (param[valeur] == "") {
+                    span.forEach(el => {
+                        if (valeur == el.className) {
+                            el.style = "display:block"
+                            el.innerHTML = "Remplissez le champ!!";
+                        }
+                    })
+                }
+                else {
+                    span.forEach(el => {
+                        if (valeur == el.className) {
+                            el.style = "display:none"
+                        }
+                    })
+                }
+            }
+        }
+
+        function confimEmail(param) {
+            let regex = /^[-.\w]+@([\w-]+\.)+[\w-]+$/g;
+            if (param["email"] !== "") {
+                if (regex.test(param["email"]) !== true) {
+                    error_email.style = "display:block";
+                    error_email.innerHTML = "Le format de votre email n'est pas conforme au norme requise."
+                    
+                }
+                else {
+                    error_email.style = "display:none";
+                }
+            }
+        }
+
+        function confirmPasswords(param) {
+            if (param["password"] !== "" && param["confirmPassword"] !== "") {
+                if (param["password"] == param["confirmPassword"]) {
+                    confirm.style = "display:block";
+                    confirm.innerHTML = "Les mots de passe sont conformes."
+                }
+                else {
+                    confirm.style = "display:block";
+                    confirm.innerHTML = "Les mots de passe ne sont pas conformes.";
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            enregistrer.addEventListener("click", (e) => {
+                e.preventDefault();
+                let tableau = recuperation();
+                emptyInput(tableau);
+                confimEmail(tableau);
+                confirmPasswords(tableau);
+            })
+        })
+
+    </script>
+</body>
+
+</html>
