@@ -5,32 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Javascript</title>
-    <style>
-        form {
-            max-width: 25%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: .5em;
-        }
-
-        form>input {
-            flex-basis: 100%;
-        }
-
-        form>button {
-            flex-basis: 60%;
-        }
-
-        form>span,
-        .confirm,
-        .error_email {
-            display: none;
-        }
-    </style>
 </head>
 
 <body>
@@ -39,7 +15,7 @@
         <p class="error_email"></p>
         <input type="text" name="nom" placeholder="Votre nom au complet">
         <span class="nom"></span>
-        <input type="email" name="email" placeholder="Votre email">
+        <input type="email" name="email" placeholder="Votre adresse électronique">
         <span class="email"></span>
         <input type="password" name="password" placeholder="Votre mot de passe">
         <span class="password"></span>
@@ -64,12 +40,12 @@
         let error_email = document.querySelector(".error_email");
 
         function recuperation() {
-            let arrayLike = [];
+            let donnees = [];
             let requete;
             input.forEach((el, i) => {
-                arrayLike[el.name] = el.value
+                donnees[el.name] = el.value
             })
-            return arrayLike;
+            return donnees;
         }
 
         function emptyInput(param) {
@@ -98,7 +74,6 @@
                 if (regex.test(param["email"]) !== true) {
                     error_email.style = "display:block";
                     error_email.innerHTML = "Le format de votre email n'est pas conforme au norme requise."
-                    
                 }
                 else {
                     error_email.style = "display:none";
